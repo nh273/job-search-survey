@@ -10,12 +10,39 @@ class App extends Component {
     return (
       <LanguageProvider>
         <div className="App">
-          <Translatable text={{ en: "Hello World", vi: "Xin chào thế giới" }} />
+          <Translatable
+            text={{
+              en: "Hello World",
+              vi: "Xin chào thế giới",
+              fr: "Bonjour Le Monde"
+            }}
+          />
           <LanguageSwitch />
           <Question
             text={{
               vi: "Em có thích ăn rau dền không?",
-              en: "Do you like to eat Amaranthus tricolor?"
+              en: "Do you like to eat Amaranthus tricolor?",
+              fr: "Veux-tu manger du Amaranthus tricolor?"
+            }}
+            choices={{
+              Q1C1: {
+                value: "Q1, option 1",
+                text: {
+                  vi: "Thích",
+                  en: "Yes",
+                  fr: "Oui"
+                }
+              },
+
+              Q2C2: {
+                key: "1.2",
+                value: "Q1, option 2",
+                text: {
+                  vi: "Không thích",
+                  en: "No",
+                  fr: "Non"
+                }
+              }
             }}
           />
         </div>
