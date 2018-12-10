@@ -35,7 +35,6 @@ class App extends Component {
               },
 
               Q2C2: {
-                key: "1.2",
                 value: "Q1, option 2",
                 text: {
                   vi: "Không thích",
