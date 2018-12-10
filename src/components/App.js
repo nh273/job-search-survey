@@ -15,7 +15,7 @@ class App extends Component {
           <Question
             text={{
               vi: "Em có thích ăn rau dền không?",
-              en: "Do you like to eat rau den?"
+              en: "Do you like to eat Amaranthus tricolor?"
             }}
           />
         </div>
