@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Translatable } from "./Translatable";
+import { Translatable } from "../multilingual/Translatable";
 
 class Question extends Component {
   static propTypes = {

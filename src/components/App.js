@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "../css/App.css";
 import Question from "./Question";
-import LanguageProvider from "../LanguageContext";
-import LanguageSwitch from "./LanguageSwitch";
-import { Translatable } from "./Translatable";
+import LanguageProvider from "../multilingual/LanguageContext";
+import LanguageSwitch from "../multilingual/LanguageSwitch";
+import { Translatable } from "../multilingual/Translatable";
 
 class App extends Component {
   render() {
