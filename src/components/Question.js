@@ -5,12 +5,14 @@ import MultipleChoice from "./MultipleChoice";
 
 class Question extends Component {
   static propTypes = {
+    id: PropTypes.string,
     text: PropTypes.object,
-    choices: PropTypes.object
+    choices: PropTypes.object,
+    updateAnswer: PropTypes.func
   };
 
   handleChoice = e => {
-    console.log(e.target.value);
+    this.props.updateAnswer(this.props.id, e.target.value);
   };
 
   render() {

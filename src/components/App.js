@@ -6,6 +6,17 @@ import LanguageSwitch from "../multilingual/LanguageSwitch";
 import { Translatable } from "../multilingual/Translatable";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { answers: {} };
+  }
+
+  updateAnswer = (questionId, answer) => {
+    const answers = this.state.answers;
+    answers[questionId] = answer;
+    this.setState({ answers });
+  };
+
   render() {
     return (
       <LanguageProvider>
@@ -19,6 +30,8 @@ class App extends Component {
           />
           <LanguageSwitch />
           <Question
+            id="Q1"
+            updateAnswer={this.updateAnswer}
             text={{
               vi: "Em có thích ăn rau dền không?",
               en: "Do you like to eat Amaranthus tricolor?",
@@ -38,6 +51,35 @@ class App extends Component {
                 value: "Q1, option 2",
                 text: {
                   vi: "Không thích",
+                  en: "No",
+                  fr: "Non"
+                }
+              }
+            }}
+          />
+
+          <Question
+            id="Q2"
+            updateAnswer={this.updateAnswer}
+            text={{
+              vi: "Em có anh trai không?",
+              en: "Do you have an older brother?",
+              fr: "As-tu un grand frere?"
+            }}
+            choices={{
+              Q2C1: {
+                value: "Q2, option 1",
+                text: {
+                  vi: "Có",
+                  en: "Yes",
+                  fr: "Oui"
+                }
+              },
+
+              Q2C2: {
+                value: "Q2, option 2",
+                text: {
+                  vi: "Không có",
                   en: "No",
                   fr: "Non"
                 }
