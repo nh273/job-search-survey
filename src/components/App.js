@@ -4,11 +4,23 @@ import Question from "./Question";
 import LanguageProvider from "../multilingual/LanguageContext";
 import LanguageSwitch from "../multilingual/LanguageSwitch";
 import { Translatable } from "../multilingual/Translatable";
+import base from './Base';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = { answers: {} };
+  }
+
+  componentDidMount(){
+    this.ref = base.syncState('survey_answers',{
+      context: this,
+      state: 'answers'
+    });
+  }
+
+  componentWillUnmount(){
+    base.removeBinding(this.ref);
   }
 
   updateAnswer = (questionId, answer) => {
