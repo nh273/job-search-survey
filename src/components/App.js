@@ -4,22 +4,25 @@ import Question from "./Question";
 import LanguageProvider from "../multilingual/LanguageContext";
 import LanguageSwitch from "../multilingual/LanguageSwitch";
 import { Translatable } from "../multilingual/Translatable";
-import base from './Base';
+import base from "./Firebase/Base";
+import Login from "./Firebase/Login";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { answers: {} };
+    this.state = { uid: null, answers: {} };
   }
 
-  componentDidMount(){
-    this.ref = base.syncState('survey_answers',{
+  componentDidMount() {
+    console.log("mounting app");
+    this.ref = base.syncState("survey_answers", {
       context: this,
-      state: 'answers'
+      user: "uid",
+      state: "answers"
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     base.removeBinding(this.ref);
   }
 
@@ -29,10 +32,15 @@ class App extends Component {
     this.setState({ answers });
   };
 
+  setUserState = newState => {
+    this.setState({ uid: newState });
+  };
+
   render() {
     return (
       <LanguageProvider>
         <div className="App">
+          <Login setUserState={this.setUserState} />
           <Translatable
             text={{
               en: "Hello World",
@@ -69,7 +77,6 @@ class App extends Component {
               }
             }}
           />
-
           <Question
             id="Q2"
             updateAnswer={this.updateAnswer}
