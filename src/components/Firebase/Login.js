@@ -39,7 +39,16 @@ class Login extends React.Component {
   };
 
   render() {
-    const logoutButton = <button onClick={this.logout}>Log Out!</button>;
+    const logoutButton = (
+      <button onClick={this.logout}>
+        <Translatable
+          text={{
+            vi: "Đăng xuất",
+            en: "Logout"
+          }}
+        />
+      </button>
+    );
 
     const loginButton = (
       <nav className="login">
