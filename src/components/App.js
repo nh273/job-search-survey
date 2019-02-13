@@ -3,7 +3,7 @@ import "../css/App.css";
 import Question from "./Question";
 import LanguageProvider from "../multilingual/LanguageContext";
 import LanguageSwitch from "../multilingual/LanguageSwitch";
-import { Translatable } from "../multilingual/Translatable";
+import Translatable from "../multilingual/Translatable";
 import base from "./Firebase/Base";
 import Login from "./Firebase/Login";
 
@@ -41,70 +41,86 @@ class App extends Component {
       <LanguageProvider>
         <div className="App">
           <Login setUserState={this.setUserState} />
-          <Translatable
-            text={{
-              en: "Hello World",
-              vi: "Xin chào thế giới",
-              fr: "Bonjour Le Monde"
-            }}
-          />
           <LanguageSwitch />
-          <Question
-            id="Q1"
-            updateAnswer={this.updateAnswer}
-            text={{
-              vi: "Em có thích ăn rau dền không?",
-              en: "Do you like to eat Amaranthus tricolor?",
-              fr: "Veux-tu manger du Amaranthus tricolor?"
-            }}
-            choices={{
-              Q1C1: {
-                value: "Q1, option 1",
-                text: {
-                  vi: "Thích",
-                  en: "Yes",
-                  fr: "Oui"
-                }
-              },
+          <div className="opening-text">
+            <Translatable
+              text={{
+                en: (
+                  <div className="opening-text-en">
+                    Most of us have been there: struggling to customize the
+                    hundredth cover letter, suppressing frustration and tears
+                    while filling out interminable forms "What do you mean I
+                    need to manually input my job experiences <i>again</i>???
+                    Then what did I just submit my résumé for?". <br />
+                    <br />
+                    And then the burst of joy upon receiving an invitation to
+                    interview, followed by dread (or for the lucky few, jaded
+                    ennui) at the scheduling, the calling and/or travelling, the
+                    awkward silence over the phone after a doozy of a question,
+                    (or God forbids, the awkward silence in person). <br />
+                    <br />
+                    This is a space for you to share your job application
+                    experience and see how it measured up against other people,
+                    to commiserate or feel inspired, to know that you are not
+                    alone in this job search journey.
+                  </div>
+                ),
+                vi: "Xin chào thế giới"
+              }}
+            />
+          </div>
+          <div className="Questionaire">
+            <Question
+              id="Q1"
+              updateAnswer={this.updateAnswer}
+              text={{
+                vi: "Em có thích ăn rau dền không?",
+                en: "Do you currently have a full-time or internship offer?"
+              }}
+              choices={{
+                Q1C1: {
+                  value: "Q1, option 1",
+                  text: {
+                    vi: "Thích",
+                    en: "Yes"
+                  }
+                },
 
-              Q2C2: {
-                value: "Q1, option 2",
-                text: {
-                  vi: "Không thích",
-                  en: "No",
-                  fr: "Non"
+                Q2C2: {
+                  value: "Q1, option 2",
+                  text: {
+                    vi: "Không thích",
+                    en: "No"
+                  }
                 }
-              }
-            }}
-          />
-          <Question
-            id="Q2"
-            updateAnswer={this.updateAnswer}
-            text={{
-              vi: "Em có anh trai không?",
-              en: "Do you have an older brother?",
-              fr: "As-tu un grand frere?"
-            }}
-            choices={{
-              Q2C1: {
-                value: "Q2, option 1",
-                text: {
-                  vi: "Có",
-                  en: "Yes",
-                  fr: "Oui"
-                }
-              },
+              }}
+            />
+            <Question
+              id="Q2"
+              updateAnswer={this.updateAnswer}
+              text={{
+                vi: "Em có anh trai không?",
+                en: "Do you have an older brother?"
+              }}
+              choices={{
+                Q2C1: {
+                  value: "Q2, option 1",
+                  text: {
+                    vi: "Có",
+                    en: "Yes"
+                  }
+                },
 
-              Q2C2: {
-                value: "Q2, option 2",
-                text: {
-                  vi: "Không có",
-                  en: "No",
-                  fr: "Non"
+                Q2C2: {
+                  value: "Q2, option 2",
+                  text: {
+                    vi: "Không có",
+                    en: "No"
+                  }
                 }
-              }
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       </LanguageProvider>
     );

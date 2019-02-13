@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "firebase";
 import PropTypes from "prop-types";
-import { Translatable } from "../../multilingual/Translatable";
+import Translatable from "../../multilingual/Translatable";
 import { firebaseApp } from "./Base";
 
 class Login extends React.Component {
@@ -9,8 +9,7 @@ class Login extends React.Component {
     loggedIn: false
   };
 
-  componentDidMount() {
-    console.log("mounting login");
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.setUserState(user.uid);
@@ -20,7 +19,6 @@ class Login extends React.Component {
   }
 
   authenticate = provider => {
-    console.log("authenticate is called");
     const authProvider = new firebase.auth[`${provider}AuthProvider`]();
     // dynamically put in what kind of AuthProvider to use
     firebaseApp
@@ -35,19 +33,26 @@ class Login extends React.Component {
   logout = async () => {
     await firebase.auth().signOut();
     this.props.setUserState(null);
-    this.setState({ loggedIn: true });
+    this.setState({ loggedIn: false });
   };
 
   render() {
     const logoutButton = (
-      <button onClick={this.logout}>
-        <Translatable
-          text={{
-            vi: "Đăng xuất",
-            en: "Logout"
-          }}
-        />
-      </button>
+      <nav className="login">
+        <p>
+          <Translatable
+            text={{ en: <h1>Welcome back!</h1>, vi: <h1>Xin chao!</h1> }}
+          />
+        </p>
+        <button onClick={this.logout}>
+          <Translatable
+            text={{
+              vi: "Đăng xuất",
+              en: "Logout"
+            }}
+          />
+        </button>
+      </nav>
     );
 
     const loginButton = (
@@ -55,8 +60,8 @@ class Login extends React.Component {
         <p>
           <Translatable
             text={{
-              vi: "Đăng nhập",
-              en: "Login"
+              vi: <h1>Đăng nhập</h1>,
+              en: <h1>Login</h1>
             }}
           />
         </p>
@@ -82,6 +87,7 @@ class Login extends React.Component {
         </button>
       </nav>
     );
+
     if (this.state.loggedIn) {
       return logoutButton;
     }

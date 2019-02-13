@@ -1,6 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
 import { LanguageConsumer } from "./LanguageContext";
 
-export const Translatable = props => (
-  <LanguageConsumer>{({ language }) => props.text[language]}</LanguageConsumer>
-);
+class Translatable extends Component {
+  render() {
+    return (
+      <LanguageConsumer>
+        {({ language }) => this.props.text[language]}
+      </LanguageConsumer>
+    );
+  }
+}
+
+export default Translatable;

@@ -9,7 +9,6 @@ class LanguageSwitch extends Component {
           <select onChange={changeLanguage} value={language}>
             <option value="en">en</option>
             <option value="vi">vi</option>
-            <option value="fr">fr</option>
           </select>
         )}
       </LanguageConsumer>
