@@ -41,7 +41,7 @@ class Login extends React.Component {
       <nav className="login">
         <p>
           <Translatable
-            text={{ en: <h1>Welcome back!</h1>, vi: <h1>Xin chao!</h1> }}
+            text={{ en: <h1>Welcome back!</h1>, vi: <h1>Xin chào!</h1> }}
           />
         </p>
         <button onClick={this.logout}>

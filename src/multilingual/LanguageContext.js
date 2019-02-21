@@ -17,8 +17,8 @@ class LanguageProvider extends Component {
     this.changeLanguage = this.changeLanguage.bind(this);
   }
 
-  changeLanguage = e => {
-    let newLanguage = e.target.value;
+  changeLanguage = (event, value) => {
+    let newLanguage = value;
     this.setState({ language: newLanguage });
     localStorage.setItem("language", newLanguage);
   };

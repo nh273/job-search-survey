@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "firebase": "^5.8.2",
     "prop-types": "^15.6.2",
     "re-base": "^4.0.0",
