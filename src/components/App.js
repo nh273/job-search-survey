@@ -6,6 +6,7 @@ import LanguageSwitch from "../multilingual/LanguageSwitch";
 import Translatable from "../multilingual/Translatable";
 import base from "./Firebase/Base";
 import Login from "./Firebase/Login";
+import MedianAppChart from "./Charts/MedianAppChart";
 
 class App extends Component {
   constructor(props) {
@@ -63,11 +64,17 @@ class App extends Component {
                     experience and see how it measured up against other people,
                     to commiserate or feel inspired, to know that you are not
                     alone in this job search journey.
+                    <br />
+                    We have collected data from 81 respondents about their job
+                    search journey.
                   </div>
                 ),
                 vi: "Xin chào thế giới"
               }}
             />
+          </div>
+          <div className="chart-1">
+            <MedianAppChart data={[1, 3, 4, 5]} size={[100, 100]} />
           </div>
           <div className="Questionaire">
             <Question
