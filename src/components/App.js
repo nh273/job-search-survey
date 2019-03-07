@@ -58,7 +58,7 @@ class App extends Component {
                     interview, followed by dread (or for the lucky few, jaded
                     ennui) at the scheduling, the calling and/or travelling, the
                     awkward silence over the phone after a doozy of a question,
-                    (or God forbids, the awkward silence in person). <br />
+                    (or heaven forbids, the awkward silence in person). <br />
                     <br />
                     This is a space for you to share your job application
                     experience and see how it measured up against other people,
