@@ -14,18 +14,17 @@ class App extends Component {
     this.state = { uid: null, answers: {} };
   }
 
-  componentDidMount() {
-    console.log("mounting app");
-    this.ref = base.syncState("survey_answers", {
-      context: this,
-      user: "uid",
-      state: "answers"
-    });
-  }
-
   componentWillUnmount() {
     base.removeBinding(this.ref);
   }
+
+  syncAnswer = uid => {
+    console.log(uid);
+    this.ref = base.syncState(`${uid}/survey_answers`, {
+      context: this,
+      state: "answers"
+    });
+  };
 
   updateAnswer = (questionId, answer) => {
     const answers = this.state.answers;
@@ -33,8 +32,9 @@ class App extends Component {
     this.setState({ answers });
   };
 
-  setUserState = newState => {
-    this.setState({ uid: newState });
+  setUserState = newUid => {
+    this.setState({ uid: newUid });
+    this.syncAnswer(newUid);
   };
 
   render() {
