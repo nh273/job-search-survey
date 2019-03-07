@@ -19,11 +19,12 @@ class App extends Component {
   }
 
   syncAnswer = uid => {
-    console.log(uid);
-    this.ref = base.syncState(`${uid}/survey_answers`, {
-      context: this,
-      state: "answers"
-    });
+    if (uid) {
+      this.ref = base.syncState(`${uid}/survey_answers`, {
+        context: this,
+        state: "answers"
+      });
+    }
   };
 
   updateAnswer = (questionId, answer) => {
