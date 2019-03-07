@@ -6,28 +6,37 @@ import { firebaseApp } from "./Base";
 
 class Login extends React.Component {
   state = {
-    loggedIn: false
+    loggedIn: false,
+    anonymous: false
   };
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.setUserState(user.uid);
-        this.setState({ loggedIn: true });
+        this.setState({ loggedIn: true, anonymous: user.isAnonymous });
       }
     });
   }
 
   authenticate = provider => {
-    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
-    // dynamically put in what kind of AuthProvider to use
     firebaseApp
       .auth()
-      .signInWithPopup(authProvider)
+      .signInWithPopup(provider)
       .then(result => {
         this.props.setUserState(result.user.id);
         this.setState({ loggedIn: true });
       });
+  };
+
+  facebookAuthenticate = () => {
+    const authProvider = new firebase.auth.FacebookAuthProvider();
+    this.authenticate(authProvider);
+  };
+
+  githubAuthenticate = () => {
+    const authProvider = new firebase.auth.GithubAuthProvider();
+    this.authenticate(authProvider);
   };
 
   logout = async () => {
@@ -67,7 +76,7 @@ class Login extends React.Component {
         </p>
         <button
           className="facebook"
-          onClick={() => this.authenticate("Facebook")}
+          onClick={() => this.facebookAuthenticate()}
         >
           <Translatable
             text={{
@@ -77,7 +86,7 @@ class Login extends React.Component {
           />
         </button>
 
-        <button className="github" onClick={() => this.authenticate("Github")}>
+        <button className="github" onClick={() => this.githubAuthenticate()}>
           <Translatable
             text={{
               vi: "Đăng nhập qua Github",
@@ -88,7 +97,7 @@ class Login extends React.Component {
       </nav>
     );
 
-    if (this.state.loggedIn) {
+    if (this.state.loggedIn & !this.state.anonymous) {
       return logoutButton;
     }
 
