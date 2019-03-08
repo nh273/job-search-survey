@@ -12,21 +12,27 @@ class Login extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.props.setUserState(user.uid);
-        this.setState({ loggedIn: true, anonymous: user.isAnonymous });
-      }
+      this.handleAuthStateChanged(user);
     });
   }
 
+  handleAuthStateChanged = user => {
+    /* This function will get called
+    by onAuthStateChanged, whenever there is
+    a successful sign in or sign out event */
+    if (user) {
+      // user is signed in
+      this.props.setUserState(user.uid);
+      this.setState({ loggedIn: true, anonymous: user.isAnonymous });
+    } else {
+      // no user signed in
+      this.props.setUserState(null);
+      this.setState({ loggedIn: false, anonymous: false });
+    }
+  };
+
   authenticate = provider => {
-    firebaseApp
-      .auth()
-      .signInWithPopup(provider)
-      .then(result => {
-        this.props.setUserState(result.user.id);
-        this.setState({ loggedIn: true });
-      });
+    firebaseApp.auth().signInWithPopup(provider);
   };
 
   facebookAuthenticate = () => {
@@ -39,10 +45,17 @@ class Login extends React.Component {
     this.authenticate(authProvider);
   };
 
+  anonAuthenticate = () => {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .catch(function(error) {
+        console.log(error.code, error.message);
+      });
+  };
+
   logout = async () => {
     await firebase.auth().signOut();
-    this.props.setUserState(null);
-    this.setState({ loggedIn: false });
   };
 
   render() {
