@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "../css/App.css";
 import Question from "./Question";
-import LanguageProvider from "../multilingual/LanguageContext";
+import LanguageProvider, {
+  LanguageConsumer
+} from "../multilingual/LanguageContext";
 import LanguageSwitch from "../multilingual/LanguageSwitch";
 import Translatable from "../multilingual/Translatable";
 import base from "./Firebase/Base";
@@ -11,7 +13,11 @@ import MedianAppChart from "./Charts/MedianAppChart";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { uid: null, answers: {} };
+    this.state = {
+      uid: null,
+      preferred_language: "en",
+      answers: {}
+    };
   }
 
   componentWillUnmount() {
@@ -27,20 +33,39 @@ class App extends Component {
     }
   };
 
+  syncLanguage = uid => {
+    /* Add listener that makes sure
+    language is always sync'ed to firebase */
+    if (uid) {
+      this.ref = base.syncState(`${uid}/preferred_language`, {
+        context: this,
+        state: "preferred_language"
+      });
+    }
+  };
+
   updateAnswer = (questionId, answer) => {
-    const answers = this.state.answers;
-    answers[questionId] = answer;
-    this.setState({ answers });
+    const answers = this.state.answers; // put current state in temp var
+    answers[questionId] = answer; // update temp var with new val
+    this.setState({ answers }); // put updated temp var in state
+  };
+
+  updateLanguage = newLanguage => {
+    this.setState({ preferred_language: newLanguage });
   };
 
   setUserState = newUid => {
     this.setState({ uid: newUid });
     this.syncAnswer(newUid);
+    this.syncLanguage(newUid);
   };
 
   render() {
     return (
-      <LanguageProvider>
+      <LanguageProvider
+        updateLanguage={this.updateLanguage}
+        currentLanguage={this.state.preferred_language}
+      >
         <div className="App">
           <Login setUserState={this.setUserState} />
           <LanguageSwitch />

@@ -12,6 +12,8 @@ class Login extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
+      /* onAuthStateChanged auto-triggers whenever there is
+      login state change */
       this.handleAuthStateChanged(user);
     });
   }
@@ -60,12 +62,10 @@ class Login extends React.Component {
 
   render() {
     const logoutButton = (
-      <nav className="login">
-        <p>
-          <Translatable
-            text={{ en: <h1>Welcome back!</h1>, vi: <h1>Xin chào!</h1> }}
-          />
-        </p>
+      <div className="first-logout-prompt">
+        <Translatable
+          text={{ en: <p>Welcome back!</p>, vi: <p>Xin chào!</p> }}
+        />
         <button onClick={this.logout}>
           <Translatable
             text={{
@@ -74,19 +74,17 @@ class Login extends React.Component {
             }}
           />
         </button>
-      </nav>
+      </div>
     );
 
     const loginButton = (
-      <nav className="login">
-        <p>
-          <Translatable
-            text={{
-              vi: <h1>Đăng nhập</h1>,
-              en: <h1>Login</h1>
-            }}
-          />
-        </p>
+      <div className="first-login-prompt">
+        <Translatable
+          text={{
+            vi: <p>Dang nhap tai day</p>,
+            en: <p>Login here</p>
+          }}
+        />
         <button
           className="facebook"
           onClick={() => this.facebookAuthenticate()}
@@ -107,7 +105,7 @@ class Login extends React.Component {
             }}
           />
         </button>
-      </nav>
+      </div>
     );
 
     if (this.state.loggedIn & !this.state.anonymous) {

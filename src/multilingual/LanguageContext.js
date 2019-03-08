@@ -7,27 +7,18 @@ export const LanguageConsumer = LanguageContext.Consumer;
 class LanguageProvider extends Component {
   constructor(props) {
     super(props);
-
-    let cachedLanguage = localStorage.getItem("language");
-    if (cachedLanguage) {
-      this.state = { language: cachedLanguage };
-    } else {
-      this.state = { language: "en" };
-    }
     this.changeLanguage = this.changeLanguage.bind(this);
   }
 
   changeLanguage = (event, value) => {
-    let newLanguage = value;
-    this.setState({ language: newLanguage });
-    localStorage.setItem("language", newLanguage);
+    this.props.updateLanguage(value);
   };
 
   render() {
     return (
       <LanguageContext.Provider
         value={{
-          language: this.state.language,
+          language: this.props.currentLanguage,
           changeLanguage: this.changeLanguage
         }}
       >
