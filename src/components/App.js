@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import "../css/App.css";
 import Question from "./Question";
-import LanguageProvider, {
-  LanguageConsumer
-} from "../multilingual/LanguageContext";
+import LanguageProvider from "../multilingual/LanguageContext";
 import LanguageSwitch from "../multilingual/LanguageSwitch";
 import Translatable from "../multilingual/Translatable";
 import base from "./Firebase/Base";
