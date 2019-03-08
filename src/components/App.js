@@ -15,6 +15,8 @@ class App extends Component {
     super(props);
     this.state = {
       uid: null,
+      loggedIn: false,
+      anonymous: null,
       preferred_language: "en",
       answers: {}
     };
@@ -58,10 +60,16 @@ class App extends Component {
     this.setState({ preferred_language: newLanguage });
   };
 
-  setUserState = newUid => {
-    this.setState({ uid: newUid });
-    this.syncAnswer(newUid);
-    this.syncLanguage(newUid);
+  setUserState = user => {
+    if (user) {
+      // logged in
+      var uid = user.uid;
+      this.setState({ uid: uid, loggedIn: true, anonymous: user.isAnonymous });
+      this.syncAnswer(uid);
+      this.syncLanguage(uid);
+    } else {
+      this.setState({ uid: null, loggedIn: false, anonymous: null });
+    }
   };
 
   render() {
@@ -74,6 +82,8 @@ class App extends Component {
           <Login
             setUserState={this.setUserState}
             removeBindingOnLoggedOut={this.removeBindingOnLoggedOut}
+            currentLoginState={this.state.loggedIn}
+            currentAnonymous={this.state.anonymous}
           />
           <LanguageSwitch />
           <div className="opening-text">

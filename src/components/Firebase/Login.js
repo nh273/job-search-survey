@@ -5,33 +5,13 @@ import Translatable from "../../multilingual/Translatable";
 import { firebaseApp } from "./Base";
 
 class Login extends React.Component {
-  state = {
-    loggedIn: false,
-    anonymous: false
-  };
-
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       /* onAuthStateChanged auto-triggers whenever there is
       login state change */
-      this.handleAuthStateChanged(user);
+      this.props.setUserState(user);
     });
   }
-
-  handleAuthStateChanged = user => {
-    /* This function will get called
-    by onAuthStateChanged, whenever there is
-    a successful sign in or sign out event */
-    if (user) {
-      // user is signed in
-      this.props.setUserState(user.uid);
-      this.setState({ loggedIn: true, anonymous: user.isAnonymous });
-    } else {
-      // no user signed in
-      this.props.setUserState(null);
-      this.setState({ loggedIn: false, anonymous: false });
-    }
-  };
 
   authenticate = provider => {
     firebaseApp.auth().signInWithPopup(provider);
@@ -109,7 +89,7 @@ class Login extends React.Component {
       </div>
     );
 
-    if (this.state.loggedIn & !this.state.anonymous) {
+    if (this.props.currentLoginState & !this.props.currentAnonymous) {
       return logoutButton;
     }
 
