@@ -20,13 +20,16 @@ class App extends Component {
     };
   }
 
-  componentWillUnmount() {
-    base.removeBinding(this.ref);
-  }
+  removeBindingOnLoggedOut = () => {
+    base.removeBinding(this.languageListener);
+    base.removeBinding(this.answerListener);
+  };
 
   syncAnswer = uid => {
+    /* Add listener that makes sure
+    question answers are always sync'ed to firebase */
     if (uid) {
-      this.ref = base.syncState(`${uid}/survey_answers`, {
+      this.answerListener = base.syncState(`${uid}/survey_answers`, {
         context: this,
         state: "answers"
       });
@@ -37,9 +40,10 @@ class App extends Component {
     /* Add listener that makes sure
     language is always sync'ed to firebase */
     if (uid) {
-      this.ref = base.syncState(`${uid}/preferred_language`, {
+      this.languageListener = base.syncState(`${uid}/preferred_language`, {
         context: this,
-        state: "preferred_language"
+        state: "preferred_language",
+        defaultValue: this.state.preferred_language
       });
     }
   };
@@ -67,7 +71,10 @@ class App extends Component {
         currentLanguage={this.state.preferred_language}
       >
         <div className="App">
-          <Login setUserState={this.setUserState} />
+          <Login
+            setUserState={this.setUserState}
+            removeBindingOnLoggedOut={this.removeBindingOnLoggedOut}
+          />
           <LanguageSwitch />
           <div className="opening-text">
             <Translatable

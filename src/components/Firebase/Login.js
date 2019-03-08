@@ -58,6 +58,7 @@ class Login extends React.Component {
 
   logout = async () => {
     await firebase.auth().signOut();
+    this.props.removeBindingOnLoggedOut();
   };
 
   render() {
