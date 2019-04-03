@@ -115,7 +115,7 @@ class App extends Component {
             />
           </div>
           <div className="chart-1">
-            <MedianAppChart data={[1, 3, 4, 5]} size={[100, 100]} />
+            <MedianAppChart size={[100, 100]} />
           </div>
           <div className="Questionaire">
             <Question
