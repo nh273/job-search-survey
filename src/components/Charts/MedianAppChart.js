@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { scaleLinear } from "d3-scale";
-import { max } from "d3-array";
+import { max, histogram } from "d3-array";
 import { select } from "d3-selection";
-import { csv } from "d3";
-import survey from "./gg_survey_res.csv";
-
+import { tsvParse } from "d3-dsv";
+import axios from "axios";
+import { parse } from "querystring";
 class MedianAppChart extends Component {
   constructor(props) {
     super(props);
@@ -22,41 +22,29 @@ class MedianAppChart extends Component {
   createBarChart() {
     var typeConvert = d => {
       return {
-        app_num_encoded: parseFloat(d.app_num_encoded),
-        edu_encoded: d.edu_encoded
+        app_num: +d.app_num_encoded,
+        edu: d.edu_encoded
       };
     };
 
-    csv(survey, typeConvert, function(error, data) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
-      }
-    });
+    var plot = rawData => {
+      let hist = histogram().value(d => d.app_num);
+      let bins = hist(rawData);
+      console.log(bins);
+    };
 
-    /*
-    const node = this.node;
-    const dataMax = max(data);
-    const yScale = scaleLinear()
-      .domain([0, dataMax])
-      .range([0, this.props.size[1]]);
-
-    const data = select(node)
-      .selectAll("rect")
-      .data(data);
-
-    data.enter().append("rect");
-
-    data.exit().remove();
-
-    data
-      .style("fill", "#fe9922")
-      .attr("x", (d, i) => i * 25)
-      .attr("y", d => this.props.size[1] - yScale(d))
-      .attr("height", d => yScale(d))
-      .attr("width", 25);
-  */
+    axios
+      .get("survey_res.tsv")
+      .then(r => {
+        return r.data;
+      })
+      .then(data => {
+        return tsvParse(data, data => {
+          var parsed = typeConvert(data);
+          return parsed;
+        });
+      })
+      .then(rawData => plot(rawData));
   }
 
   render() {
